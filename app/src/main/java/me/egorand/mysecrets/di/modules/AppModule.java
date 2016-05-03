@@ -23,9 +23,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.greenrobot.dao.database.Database;
 import me.egorand.mysecrets.data.db.SecretsDatabaseKeyHolder;
-import me.egorand.mysecrets.data.db.SecretsOpenHelper;
 import me.egorand.mysecrets.data.db.SecretsRepository;
+import me.egorand.mysecrets.data.gen.DaoMaster;
+import me.egorand.mysecrets.data.gen.DaoMaster.EncryptedDevOpenHelper;
 
 /**
  * @author Egor
@@ -43,16 +45,15 @@ public class AppModule {
         return context;
     }
 
-    @Provides @Singleton public SecretsOpenHelper provideSecretsOpenHelper(Context context) {
-        return new SecretsOpenHelper(context);
-    }
-
     @Provides @Singleton public SecretsDatabaseKeyHolder provideSecretsDatabaseKeyHolder(Context context) {
         return new SecretsDatabaseKeyHolder(context);
     }
 
-    @Provides @Singleton public SecretsRepository provideSecretsRepository(
-            SecretsOpenHelper secretsOpenHelper, SecretsDatabaseKeyHolder secretsDatabaseKeyHolder) {
-        return new SecretsRepository(secretsOpenHelper, secretsDatabaseKeyHolder);
+    @Provides @Singleton public SecretsRepository provideSecretsRepository(SecretsDatabaseKeyHolder
+                                                                                   secretsDatabaseKeyHolder) {
+        EncryptedDevOpenHelper helper = new EncryptedDevOpenHelper(context, "secrets.db");
+        Database database = helper.getWritableDatabase(secretsDatabaseKeyHolder.getKey());
+        DaoMaster daoMaster = new DaoMaster(database);
+        return new SecretsRepository(daoMaster.newSession());
     }
 }

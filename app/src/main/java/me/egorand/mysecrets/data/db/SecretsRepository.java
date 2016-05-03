@@ -21,8 +21,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import de.greenrobot.dao.database.Database;
-import me.egorand.mysecrets.data.gen.DaoMaster;
+import me.egorand.mysecrets.data.gen.DaoSession;
 import me.egorand.mysecrets.data.gen.Secret;
 import me.egorand.mysecrets.data.gen.SecretDao;
 
@@ -34,10 +33,8 @@ public class SecretsRepository {
 
     private final SecretDao secretDao;
 
-    public SecretsRepository(SecretsOpenHelper helper, SecretsDatabaseKeyHolder keyHolder) {
-        Database database = helper.getWritableDatabase(keyHolder.getKey());
-        DaoMaster daoMaster = new DaoMaster(database);
-        this.secretDao = daoMaster.newSession().getSecretDao();
+    public SecretsRepository(DaoSession session) {
+        this.secretDao = session.getSecretDao();
     }
 
     public List<Secret> loadAllSecrets() {

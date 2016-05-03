@@ -22,7 +22,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import me.egorand.mysecrets.data.db.SecretsDatabaseKeyHolder;
-import me.egorand.mysecrets.data.db.SecretsOpenHelper;
 import me.egorand.mysecrets.data.db.SecretsRepository;
 import me.egorand.mysecrets.data.loaders.SecretsLoader;
 import me.egorand.mysecrets.di.modules.AppModule;
@@ -38,8 +37,6 @@ public interface AppComponent {
     void inject(SecretsActivity activity);
 
     Context appContext();
-
-    @Singleton SecretsOpenHelper secretsOpenHelper();
 
     @Singleton SecretsDatabaseKeyHolder secretsDatabaseKeyHolder();
 
