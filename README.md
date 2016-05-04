@@ -1,5 +1,8 @@
 # android-greendao-database-encryption
 
+An example of configuring greenDAO with database encryption to store sensitive data.
+Check [Keeping Your Secrets Safe With greenDAO's Database Encryption](http://blog.egorand.me/keeping-your-secrets-safe-with-greendaos-database-encryption/)
+
 License
 -------
 
